@@ -1,0 +1,15 @@
+﻿<Application x:Class="BebaAguaAPP.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:BebaAguaAPP"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <BitmapImage x:Key="haha" UriSource="Resources\haha.png"></BitmapImage>
+            <BitmapImage x:Key="triste" UriSource="Resources\triste.png"></BitmapImage>
+            <BitmapImage x:Key="wow" UriSource="Resources\wow.png"></BitmapImage>
+            <BitmapImage x:Key="zen" UriSource="Resources\zen.png"></BitmapImage>
+            <Image x:Key="gear" Source="Resources\gear.png"></Image>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
