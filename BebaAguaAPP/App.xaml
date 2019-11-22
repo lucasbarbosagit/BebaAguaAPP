@@ -8,7 +8,8 @@
             <BitmapImage x:Key="haha" UriSource="Resources\haha.png"></BitmapImage>
             <BitmapImage x:Key="triste" UriSource="Resources\triste.png"></BitmapImage>
             <BitmapImage x:Key="wow" UriSource="Resources\wow.png"></BitmapImage>
-            <BitmapImage x:Key="zen" UriSource="Resources\zen.png"></BitmapImage>
+            <BitmapImage x:Key="zen1" UriSource="Resources\zen1.png"></BitmapImage>
+          <BitmapImage x:Key="zen2" UriSource="Resources\zen2.png"></BitmapImage>
             <Image x:Key="gear" Source="Resources\gear.png"></Image>
         </ResourceDictionary>
     </Application.Resources>

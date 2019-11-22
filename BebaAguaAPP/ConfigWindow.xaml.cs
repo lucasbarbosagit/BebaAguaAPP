@@ -23,12 +23,12 @@ namespace BebaAguaAPP
     /// </summary>
     public partial class ConfigWindow: Window
     {
-        DadosAgua dadosaguinha;
+       // DadosAgua dadosaguinha;
         public ConfigWindow()
         {
                 InitializeComponent();
 
-            dadosaguinha = new DadosAgua();
+           // dadosaguinha = new DadosAgua();
                
         }
     
@@ -53,21 +53,22 @@ namespace BebaAguaAPP
                 } else
                 {
                     MessageBox.Show("Configurações Atualizadas com sucesso!!", "BebaAguaAPP", MessageBoxButton.OK, MessageBoxImage.Information);
-                    DadosAgua dadosAgua = new DadosAgua()
-                    {
-                        ValorCopo = pegaCopo.Text,
-                        ValorTotal = pegaTotal.Text,
-                        Contador = "0"
-                    };
+                 //   DadosAgua dadosAgua = new DadosAgua()
+                 //   {
+                    //    ValorCopo = pegaCopo.Text,
+                   //     ValorTotal = pegaTotal.Text,
+                   //     Contador = MainWindow.contador.ToString(),
+                   //     Id = 1
+                  //  };
                 
                   
 
-                    using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
-                    {
-                        connection.CreateTable<DadosAgua>();
-                        connection.Insert(dadosAgua);
-                    }
-                    Close();
+                 //   using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
+                  //  {
+                      //  connection.CreateTable<DadosAgua>();
+                      //  connection.Update(dadosAgua);
+                 //   }
+                  Close();
                 }
              
             }

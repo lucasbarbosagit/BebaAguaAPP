@@ -8,46 +8,62 @@ using Windows.Data.Xml.Dom;
 using System.IO;
 using System.Windows.Threading;
 using System.Windows.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BebaAguaAPP
 {
 
     public partial class MainWindow : Window
     {
-        DadosAgua dadosaguinha;
+        //DadosAgua dadosaguinha;
         int PADDING = 5;
         public static int Pegaaguavalor = 0;
         public static int contador = 0;
-        public static int totalml = 0;
-        public static int copoml = 0;
+        public static int totalml = 2000;
+        public static int copoml = 200;
         private const String APP_ID = "BebaAguaAPP";
-     
+       // List<DadosAgua> dadosaguarasa;
+
         public MainWindow()
         {
             InitializeComponent();
-            dadosaguinha = new DadosAgua();
-            
+          //  dadosaguinha = new DadosAgua();
+        //    dadosaguarasa = new List<DadosAgua>();
+      
             this.ShowInTaskbar = true;
             this.Left = SystemParameters.PrimaryScreenWidth - this.Width - PADDING;
             System.Windows.Threading.DispatcherTimer DispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             DispatcherTimer.Tick += DispatcherTimer_Tick;
             DispatcherTimer.Interval = new TimeSpan(0, 0, 3600);
-            DispatcherTimer.Start();
-          //  ReadDatabase();
-           
+            DispatcherTimer.Start();           
+          
+          //    ReadDatabase();
+
         }
    
+
+        public static string mensagem1 = "Mantenha-se Hidratado, beba água !!!";
+        public static string mensagem2 = "Você ainda está no início, continue bebendo mais água!";
+        public static string mensagem3 = "Boa, você chegou na metade, continue bebendo mais água!!!";
+        public static string mensagem4 = "Você passou da metade, Parabéns!!!";
+        public static string mensagem5 = "Parabéns você chegou no seu limite diário!!!";
+        public static string mensagem6 = "Você passou do dobro do seu limite diário!!!";
+
+
+
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
+
             // Get a toast XML template
             Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
 
             // Fill in the text elements
             Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
-            for (int i = 0; i < stringElements.Length; i++)
-            {
-                stringElements[i].AppendChild(toastXml.CreateTextNode("Line " + i));
-            }
+            stringElements[0].AppendChild(toastXml.CreateTextNode("Beba Água APP"));
+            stringElements[1].AppendChild(toastXml.CreateTextNode(mensagem1));
+
+
 
             // Specify the absolute path to an image
             String imagePath = "file:///" + Path.GetFullPath(@"/bebaagua.jpg");
@@ -66,131 +82,229 @@ namespace BebaAguaAPP
             System.Windows.Application.Current.Shutdown();
         }
 
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BebaAguaAPP.BlurFeature.NativeBlurBackground.EnableBlur(this);
         }
 
-       // void ReadDatabase()
-      //  {
-        //    using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.databasePath))
-      //     {
-          //      conn.CreateTable<DadosAgua>();
-           //     contador = int.Parse(dadosaguinha.Contador);
-        //    }
+      //  void ReadDatabase()
+     //   {
+      //      using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.databasePath))
+      //      {
+      //          conn.CreateTable<DadosAgua>();
+      //          dadosaguarasa = (conn.Table<DadosAgua>().ToList()).OrderBy(c => c.Id).ToList();
+      //      }
 
-           
-       // }
+      //      if (dadosaguarasa != null)
+       //     {
+         //       contactsListView.ItemsSource = dadosaguarasa;
+        //    }
+     //   }
 
         public void PegarAgua(object sender, RoutedEventArgs e)
         {
            
-               
-          
-              if (pegaAgua.Text == "" || copoml == 0 && totalml == 0)
-               {
-                  MessageBox.Show("Defina as Configurações Primeiro!!!", "BebaAguaAPP", MessageBoxButton.OK, MessageBoxImage.Information);
-               }
-               else
-               {
-
-
-               
-
-
-
+         
+            if (pegaAgua.Text == "" ||  copoml == 0 && totalml == 0)
+            {
+                MessageBox.Show("Defina as Configurações Primeiro!!!", "BebaAguaAPP", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+              { 
                 Pegaaguavalor = int.Parse(this.pegaAgua.Text) + Pegaaguavalor;
                 contador = Pegaaguavalor * copoml;
-                dadosaguinha.Contador = contador.ToString();
-                textContador.Text = dadosaguinha.Contador;
+                textContador.Text = contador.ToString();           
                 pegaAgua.Text = "";
 
-                using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
-                {
+             //   using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
+             //   {
 
-                    con.CreateTable<DadosAgua>();
-                    con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=? Where Id=1", dadosaguinha.Contador);
-                   
-                    
-
-                }
+                //    con.CreateTable<DadosAgua>();
+                 //   con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=? Where Id=1", dadosaguinha.Contador);
+                                  
+           //    }
 
                 if (contador < totalml / 2)
                 {
-                    // this.textStatus.Text = "Ainda Falta!!!";
-                    //  this.textStatus.FontSize = 24;
-                    //    this.textStatus.Width = 300;
+                   
                     haha.Visibility = Visibility.Collapsed;
                     triste.Visibility = Visibility.Visible;
                     wow.Visibility = Visibility.Collapsed;
-                    zen.Visibility = Visibility.Collapsed;
-                    // Thickness margin = textContador.Margin;
-                    //   margin.Left = 74;
-                    //  textContador.Margin = margin;
+                    zen1.Visibility = Visibility.Collapsed;
+                    zen2.Visibility = Visibility.Collapsed;
+
+                    // Get a toast XML template
+                    Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
+
+                    // Fill in the text elements
+                    Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
+                    stringElements[0].AppendChild(toastXml.CreateTextNode("Beba Água APP"));
+                    stringElements[1].AppendChild(toastXml.CreateTextNode(mensagem2));
+
+
+
+                    // Specify the absolute path to an image
+                    String imagePath = "file:///" + Path.GetFullPath(@"/bebaagua.jpg");
+                    Windows.Data.Xml.Dom.XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
+                    imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
+
+                    // Create the toast and attach event listeners
+                    ToastNotification toast = new ToastNotification(toastXml);
+
+                    // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
+                    ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
+
+                }
+
+                if (contador == totalml / 2)
+                {                   
+                    zen1.Visibility = Visibility.Visible;
+                    zen2.Visibility = Visibility.Collapsed;
+                    haha.Visibility = Visibility.Collapsed;
+                    triste.Visibility = Visibility.Collapsed;
+                    wow.Visibility = Visibility.Collapsed;
+
+                    // Get a toast XML template
+                    Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
+
+                    // Fill in the text elements
+                    Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
+                    stringElements[0].AppendChild(toastXml.CreateTextNode("Beba Água APP"));
+                    stringElements[1].AppendChild(toastXml.CreateTextNode(mensagem3));
+
+
+
+                    // Specify the absolute path to an image
+                    String imagePath = "file:///" + Path.GetFullPath(@"/bebaagua.jpg");
+                    Windows.Data.Xml.Dom.XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
+                    imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
+
+                    // Create the toast and attach event listeners
+                    ToastNotification toast = new ToastNotification(toastXml);
+
+                    // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
+                    ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
 
                 }
 
                 if (contador > totalml / 2 && contador < totalml)
                 {
-                    // this.textStatus.Text = "Passou da Metade, Quase lá!!!";
-                    //   this.textStatus.FontSize = 24;
-                    // this.textStatus.Width = 300;
-                    zen.Visibility = Visibility.Visible;
+                   
+                    zen1.Visibility = Visibility.Collapsed;
+                    zen2.Visibility = Visibility.Visible;
                     haha.Visibility = Visibility.Collapsed;
                     triste.Visibility = Visibility.Collapsed;
                     wow.Visibility = Visibility.Collapsed;
-                    // Thickness margin = textContador.Margin;
-                    //   margin.Left = 74;
-                    //  textContador.Margin = margin;
+
+                    // Get a toast XML template
+                    Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
+
+                    // Fill in the text elements
+                    Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
+                    stringElements[0].AppendChild(toastXml.CreateTextNode("Beba Água APP"));
+                    stringElements[1].AppendChild(toastXml.CreateTextNode(mensagem4));
+
+
+
+                    // Specify the absolute path to an image
+                    String imagePath = "file:///" + Path.GetFullPath(@"/bebaagua.jpg");
+                    Windows.Data.Xml.Dom.XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
+                    imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
+
+                    // Create the toast and attach event listeners
+                    ToastNotification toast = new ToastNotification(toastXml);
+
+                    // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
+                    ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
 
                 }
 
-                if (contador == totalml)
-                {
-                    //  this.textStatus.Text = "Parabéns!!!!";
-                    //  this.textStatus.FontSize = 24;
+                if (contador >= totalml && contador < totalml * 2)
+                {                  
                     haha.Visibility = Visibility.Visible;
                     wow.Visibility = Visibility.Collapsed;
                     triste.Visibility = Visibility.Collapsed;
-                    zen.Visibility = Visibility.Collapsed;
+                    zen1.Visibility = Visibility.Collapsed;
+                    zen2.Visibility = Visibility.Collapsed;
+
+                    // Get a toast XML template
+                    Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
+
+                    // Fill in the text elements
+                    Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
+                    stringElements[0].AppendChild(toastXml.CreateTextNode("Beba Água APP"));
+                    stringElements[1].AppendChild(toastXml.CreateTextNode(mensagem5));
+
+
+
+                    // Specify the absolute path to an image
+                    String imagePath = "file:///" + Path.GetFullPath(@"/bebaagua.jpg");
+                    Windows.Data.Xml.Dom.XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
+                    imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
+
+                    // Create the toast and attach event listeners
+                    ToastNotification toast = new ToastNotification(toastXml);
+
+                    // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
+                    ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
                 }
 
-                //  Limitar contador
-                if (contador > totalml)
+              
+                if (contador > totalml * 2)
                 {
-                    // this.textStatus.Text = "Você atingiu o limite.";
-                    // this.textStatus.FontSize = 24;
-                    //  this.textStatus.Width = 300;
-                    //  contador = 99;
-                    // Pegaaguavalor = 99;
-                    textContador.Text = contador.ToString();
+                  
                     wow.Visibility = Visibility.Visible;
                     haha.Visibility = Visibility.Collapsed;
                     triste.Visibility = Visibility.Collapsed;
-                    zen.Visibility = Visibility.Collapsed;
+                    zen1.Visibility = Visibility.Collapsed;
+                    zen2.Visibility = Visibility.Collapsed;
+
+                    // Get a toast XML template
+                    Windows.Data.Xml.Dom.XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText03);
+
+                    // Fill in the text elements
+                    Windows.Data.Xml.Dom.XmlNodeList stringElements = toastXml.GetElementsByTagName("text");
+                    stringElements[0].AppendChild(toastXml.CreateTextNode("Beba Água APP"));
+                    stringElements[1].AppendChild(toastXml.CreateTextNode(mensagem5));
+
+
+
+                    // Specify the absolute path to an image
+                    String imagePath = "file:///" + Path.GetFullPath(@"/bebaagua.jpg");
+                    Windows.Data.Xml.Dom.XmlNodeList imageElements = toastXml.GetElementsByTagName("image");
+                    imageElements[0].Attributes.GetNamedItem("src").NodeValue = imagePath;
+
+                    // Create the toast and attach event listeners
+                    ToastNotification toast = new ToastNotification(toastXml);
+
+                    // Show the toast. Be sure to specify the AppUserModelId on your application's shortcut!
+                    ToastNotificationManager.CreateToastNotifier(APP_ID).Show(toast);
+
                 }
 
                 if (contador >= 10000)
-                {
-                    // this.textStatus.Text = "Você atingiu o limite.";
-                    // this.textStatus.FontSize = 24;
-                    //  this.textStatus.Width = 300;
+                {                 
                     contador = 10000;
-                    // Pegaaguavalor = 99;
-                    textContador.Text = contador.ToString();
+                    //   using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
+                    //    {
+
+                    //  con.CreateTable<DadosAgua>();
+                    //  con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=10000 Where Id=1");
+
+                    //   }    
+                    textContador.Text = "10000";
                     wow.Visibility = Visibility.Visible;
                     haha.Visibility = Visibility.Collapsed;
                     triste.Visibility = Visibility.Collapsed;
-                    zen.Visibility = Visibility.Collapsed;
+                    zen1.Visibility = Visibility.Collapsed;
+                    zen2.Visibility = Visibility.Collapsed;
                 }
             }
-
+          //  ReadDatabase();
         }
         private void ResetarAgua(object sender, RoutedEventArgs e)
         {
 
-          
             if (pegaAgua.Text == "" && copoml == 0 && totalml == 0 || pegaAgua.Text != "" && copoml == 0 && totalml == 0 || pegaAgua.Text != "" 
                 && copoml != 0 && totalml != 0 && contador == 0)
             {
@@ -198,17 +312,24 @@ namespace BebaAguaAPP
             }
             else {
 
-               
+              //  using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
+               // {
+               //
+                 //   con.CreateTable<DadosAgua>();
+                 //   con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=0 Where Id=1");
 
-                contador = 0;
-            Pegaaguavalor = 0;
-            textContador.Text = contador.ToString();
-            pegaAgua.Text = "";  
-        //    textStatus.Text = "Ainda Falta!!!!";
+            //    }
+
+            contador = 0;
+            Pegaaguavalor = 0;         
+            pegaAgua.Text = "";
+            textContador.Text = "0";
             haha.Visibility = Visibility.Collapsed;
             wow.Visibility = Visibility.Collapsed;
             triste.Visibility = Visibility.Visible;
-            zen.Visibility = Visibility.Collapsed;
+            zen1.Visibility = Visibility.Collapsed;
+            zen2.Visibility = Visibility.Collapsed;
+               // ReadDatabase();
             }
         }
 
