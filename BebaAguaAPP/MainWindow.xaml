@@ -41,7 +41,7 @@
             Content="-"
             Foreground="White" Background="#00000000" BorderThickness="0"
             Padding="10" Height="33" Width="33" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,33,0.2,0"/>
-        <!--<ListView x:Name="contactsListView"
+       <!--> <ListView x:Name="contactsListView"
                   Margin="214,43,0,110.2" Grid.RowSpan="2" Foreground="White" Background="#00000000" BorderThickness="0" HorizontalAlignment="Left" Width="93">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -51,8 +51,8 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
--->
+        </ListView><-->
+
         <TextBlock Name="textPegaAgua" Text="Quantos copos você bebeu?" Margin="204,85,37.2,83.2" Grid.Row="1" Foreground="White" RenderTransformOrigin="1.612,0.893" />
         <TextBox Name="pegaAgua" Width="164"
                   Grid.Row="1" HorizontalAlignment="left" VerticalAlignment="Bottom" Margin="203,0,0,63.2" Height="22" KeyDown="PegaAgua_KeyDown_1"/>
@@ -75,7 +75,7 @@
             Content="Resetar" FontSize="12px" 
             Foreground="White" Background="{x:Null}" BorderThickness="1"
             Padding="10" Margin="203,139,131.2,10.2" Grid.Row="1" BorderBrush="White" />
-        <TextBlock Name="textContador" Text="0" FontSize="40px" Margin="185,33,69,109" Grid.Row="1" Foreground="White" VerticalAlignment="Center" Height="49" TextAlignment="Center" />
+        <TextBlock Name="textContador" Text="0" FontSize="40px" Margin="185,33,69,109" Grid.Row="1" Foreground="White" VerticalAlignment="Center" Height="49" TextAlignment="Center" /> 
         <TextBlock Name="textCont" Text="TOTAL BEBIDO" FontSize="25px" Margin="200,6,38.2,153.2" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" Width="165" VerticalAlignment="Center" Height="32" />
             <TextBlock Name="textML" Text="ML" FontSize="25px" Margin="320,43,50.2,116.2" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" Width="33" VerticalAlignment="Center" Height="32" />
         <Viewbox Margin="37,0,219.2,0.2" Grid.RowSpan="2">

@@ -1,5 +1,4 @@
-﻿using SQLite;
-using BebaAguaAPP.Classes;
+﻿using BebaAguaAPP.Classes;
 using System;
 using System.Windows;
 using System.Xml;
@@ -10,38 +9,50 @@ using System.Windows.Threading;
 using System.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SQLite;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace BebaAguaAPP
 {
 
     public partial class MainWindow : Window
     {
-        //DadosAgua dadosaguinha;
-        int PADDING = 5;
-        public static int Pegaaguavalor = 0;
+        int PADDING = 5; 
+        public static int Pegaaguavalor = 3;
         public static int contador = 0;
-        public static int totalml = 2000;
-        public static int copoml = 200;
+        public static int totalml = 0;
+        public static int copoml = 0;
         private const String APP_ID = "BebaAguaAPP";
-       // List<DadosAgua> dadosaguarasa;
-
+        private static SQLiteConnection sqliteConnection;
         public MainWindow()
         {
             InitializeComponent();
-          //  dadosaguinha = new DadosAgua();
-        //    dadosaguarasa = new List<DadosAgua>();
-      
+
+            sqliteConnection = new SQLiteConnection("Data Source=c:\\Users\\Lucas\\Documents\\DadosAgua.db; Version=3;");
+            sqliteConnection.Open();
+
+            SQLiteCommand cmd = new SQLiteCommand("Select * from DadosAgua where Id = 2", sqliteConnection);
+            SQLiteDataReader da = cmd.ExecuteReader();
+            while (da.Read())
+            {
+                textContador.Text = da.GetValue(3).ToString();
+                contador = Convert.ToInt32(da.GetValue(3));
+                copoml = Convert.ToInt32(da.GetValue(1));
+                totalml = Convert.ToInt32(da.GetValue(2));
+                Pegaaguavalor = Convert.ToInt32(da.GetValue(4));
+            }
+
+            sqliteConnection.Close();
+
             this.ShowInTaskbar = true;
             this.Left = SystemParameters.PrimaryScreenWidth - this.Width - PADDING;
             System.Windows.Threading.DispatcherTimer DispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             DispatcherTimer.Tick += DispatcherTimer_Tick;
             DispatcherTimer.Interval = new TimeSpan(0, 0, 3600);
-            DispatcherTimer.Start();           
-          
-          //    ReadDatabase();
+            DispatcherTimer.Start();
 
         }
-   
 
         public static string mensagem1 = "Mantenha-se Hidratado, beba água !!!";
         public static string mensagem2 = "Você ainda está no início, continue bebendo mais água!";
@@ -49,8 +60,6 @@ namespace BebaAguaAPP
         public static string mensagem4 = "Você passou da metade, Parabéns!!!";
         public static string mensagem5 = "Parabéns você chegou no seu limite diário!!!";
         public static string mensagem6 = "Você passou do dobro do seu limite diário!!!";
-
-
 
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
@@ -87,24 +96,8 @@ namespace BebaAguaAPP
             BebaAguaAPP.BlurFeature.NativeBlurBackground.EnableBlur(this);
         }
 
-      //  void ReadDatabase()
-     //   {
-      //      using (SQLite.SQLiteConnection conn = new SQLite.SQLiteConnection(App.databasePath))
-      //      {
-      //          conn.CreateTable<DadosAgua>();
-      //          dadosaguarasa = (conn.Table<DadosAgua>().ToList()).OrderBy(c => c.Id).ToList();
-      //      }
-
-      //      if (dadosaguarasa != null)
-       //     {
-         //       contactsListView.ItemsSource = dadosaguarasa;
-        //    }
-     //   }
-
         public void PegarAgua(object sender, RoutedEventArgs e)
         {
-           
-         
             if (pegaAgua.Text == "" ||  copoml == 0 && totalml == 0)
             {
                 MessageBox.Show("Defina as Configurações Primeiro!!!", "BebaAguaAPP", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -116,15 +109,23 @@ namespace BebaAguaAPP
                 textContador.Text = contador.ToString();           
                 pegaAgua.Text = "";
 
-             //   using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
-             //   {
 
-                //    con.CreateTable<DadosAgua>();
-                 //   con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=? Where Id=1", dadosaguinha.Contador);
-                                  
-           //    }
+                try
+                {
+                    DadosAgua dad = new DadosAgua();
+                    dad.Id = Convert.ToInt32(2);
+                    dad.Contador = contador.ToString();
+                    dad.PegaAguaValor = Pegaaguavalor.ToString();
 
-                if (contador < totalml / 2)
+                    DalHelper.Update2(dad);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro : " + ex.Message);
+                }
+            
+            if (contador < totalml / 2)
                 {
                    
                     haha.Visibility = Visibility.Collapsed;
@@ -285,14 +286,6 @@ namespace BebaAguaAPP
                 if (contador >= 10000)
                 {                 
                     contador = 10000;
-                    //   using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
-                    //    {
-
-                    //  con.CreateTable<DadosAgua>();
-                    //  con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=10000 Where Id=1");
-
-                    //   }    
-                    textContador.Text = "10000";
                     wow.Visibility = Visibility.Visible;
                     haha.Visibility = Visibility.Collapsed;
                     triste.Visibility = Visibility.Collapsed;
@@ -300,7 +293,6 @@ namespace BebaAguaAPP
                     zen2.Visibility = Visibility.Collapsed;
                 }
             }
-          //  ReadDatabase();
         }
         private void ResetarAgua(object sender, RoutedEventArgs e)
         {
@@ -311,14 +303,21 @@ namespace BebaAguaAPP
                 MessageBox.Show("Defina as Configurações Primeiro!!!", "BebaAguaAPP", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else {
+                try
+                {
+                    DadosAgua dad = new DadosAgua();
+                    dad.Id = Convert.ToInt32(2);
+                    dad.Contador = "0";
+                    dad.PegaAguaValor = "0";
 
-              //  using (SQLiteConnection con = new SQLiteConnection(App.databasePath))
-               // {
-               //
-                 //   con.CreateTable<DadosAgua>();
-                 //   con.Query<DadosAgua>("UPDATE DADOSAGUA set Contador=0 Where Id=1");
+                    DalHelper.Update2(dad);
 
-            //    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro : " + ex.Message);
+                }
+
 
             contador = 0;
             Pegaaguavalor = 0;         
@@ -329,7 +328,6 @@ namespace BebaAguaAPP
             triste.Visibility = Visibility.Visible;
             zen1.Visibility = Visibility.Collapsed;
             zen2.Visibility = Visibility.Collapsed;
-               // ReadDatabase();
             }
         }
 

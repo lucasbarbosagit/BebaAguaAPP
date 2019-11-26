@@ -1,5 +1,4 @@
 ﻿using BebaAguaAPP.Classes;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +22,9 @@ namespace BebaAguaAPP
     /// </summary>
     public partial class ConfigWindow: Window
     {
-       // DadosAgua dadosaguinha;
         public ConfigWindow()
         {
-                InitializeComponent();
-
-           // dadosaguinha = new DadosAgua();
-               
+                InitializeComponent();     
         }
     
 
@@ -53,21 +48,26 @@ namespace BebaAguaAPP
                 } else
                 {
                     MessageBox.Show("Configurações Atualizadas com sucesso!!", "BebaAguaAPP", MessageBoxButton.OK, MessageBoxImage.Information);
-                 //   DadosAgua dadosAgua = new DadosAgua()
-                 //   {
-                    //    ValorCopo = pegaCopo.Text,
-                   //     ValorTotal = pegaTotal.Text,
-                   //     Contador = MainWindow.contador.ToString(),
-                   //     Id = 1
-                  //  };
-                
-                  
 
-                 //   using (SQLiteConnection connection = new SQLiteConnection(App.databasePath))
-                  //  {
-                      //  connection.CreateTable<DadosAgua>();
-                      //  connection.Update(dadosAgua);
-                 //   }
+                    try
+                    {
+                        DadosAgua dad = new DadosAgua();
+                        dad.Id = Convert.ToInt32(2);
+                        dad.ValorCopo = pegaCopo.Text;
+                        dad.ValorTotal = pegaTotal.Text;
+                        dad.Contador = MainWindow.contador.ToString();
+                        dad.PegaAguaValor = MainWindow.Pegaaguavalor.ToString();
+
+                        DalHelper.Update(dad);
+                        pegaTotal.Text = "";
+                        pegaCopo.Text = "";
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erro : " + ex.Message);
+                    }
+
                   Close();
                 }
              

@@ -1,5 +1,5 @@
 ﻿using System;
-using SQLite;
+//using SQLite;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 
 namespace BebaAguaAPP.Classes
 {
-    class DadosAgua
+    public class DadosAgua
     {
-            [PrimaryKey, AutoIncrement]
-            public int Id { get; set; }
+          
+            public long? Id { get; set; }
             public string ValorCopo { get; set; }
             public string ValorTotal { get; set; }
             public string Contador { get; set; }
+            public string PegaAguaValor { get; set; }
     }
 }
