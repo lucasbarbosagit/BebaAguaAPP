@@ -12,22 +12,39 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data.SQLite;
 
 
 namespace BebaAguaAPP
 {
 
-    /// <summary>
-    /// Lógica interna para Window1.xaml
-    /// </summary>
+  
     public partial class ConfigWindow: Window
     {
+        private static SQLiteConnection sqliteConnection;
+        public static int lastID;
         public ConfigWindow()
         {
-                InitializeComponent();     
-        }
-    
+                InitializeComponent();
 
+
+
+            sqliteConnection = new SQLiteConnection("Data Source=.\\dados\\DadosAgua.db; Version=3;");
+            sqliteConnection.Open();
+
+            SQLiteCommand cmd = new SQLiteCommand("Select * from DadosAgua", sqliteConnection);
+            SQLiteDataReader da = cmd.ExecuteReader();
+            while (da.Read())
+            {
+                pegaTotal.Text = da.GetValue(2).ToString();
+                pegaCopo.Text = da.GetValue(1).ToString();
+            }
+
+            sqliteConnection.Close();
+
+        }
+
+    
         private void DefinAgua(object sender, RoutedEventArgs e)
         {
            
@@ -52,11 +69,23 @@ namespace BebaAguaAPP
                     try
                     {
                         DadosAgua dad = new DadosAgua();
-                        dad.Id = Convert.ToInt32(2);
+
+                       
+
+                        sqliteConnection = new SQLiteConnection("Data Source=.\\dados\\DadosAgua.db; Version=3;");
+                        sqliteConnection.Open();
+
+                        SQLiteCommand cmd = new SQLiteCommand("Select * from DadosAgua", sqliteConnection);
+                        SQLiteDataReader da = cmd.ExecuteReader();
+                        while (da.Read())
+                        {
+                            lastID = Convert.ToInt32(da.GetValue(0));
+                        }
+
+                        dad.Id = lastID;
                         dad.ValorCopo = pegaCopo.Text;
                         dad.ValorTotal = pegaTotal.Text;
-                        dad.Contador = MainWindow.contador.ToString();
-                        dad.PegaAguaValor = MainWindow.Pegaaguavalor.ToString();
+                        dad.Contador = MainWindow.contador.ToString();          
 
                         DalHelper.Update(dad);
                         pegaTotal.Text = "";

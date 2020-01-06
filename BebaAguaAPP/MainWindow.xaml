@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BebaAguaAPP"
         mc:Ignorable="d"
-        Title="Hello Blur!" 
-        Height="202.424" Width="405.789" ResizeMode="NoResize"
+        Title="BebaAguaAPP!" 
+        Height="199.175" Width="444.207" ResizeMode="NoResize"
 		Background="#66000000"
 		AllowsTransparency="True"
 		WindowStyle="None"
@@ -14,7 +14,15 @@
 		BorderBrush="#88ffffff"
 		WindowStartupLocation="Manual" 
         Top="5"
-		Loaded="Window_Loaded">
+		Loaded="Window_Loaded" MouseDown="Window_MouseDown_1" MouseLeave="Window_MouseLeave_1" MouseEnter="Window_MouseEnter">
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo>
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfo Description="Play!" Click="ThumbButtonInfo_Click"/>
+                <ThumbButtonInfo Description="Stop!" Click="ThumbButtonInfo_Click_1"  />
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
     <Grid Margin="0,0,-0.4,8.6">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -33,65 +41,79 @@
             Grid.Row="0" Grid.RowSpan="2"
             Content="x"
             Foreground="White" Background="#00000000" BorderThickness="0"
-            Padding="10" Height="33" Width="33" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            Padding="10" Height="42" Width="33" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
         <Button
             Name="btnMinimize"
             Click="MinimizeApp"
             Grid.Row="0" Grid.RowSpan="2"
             Content="-"
             Foreground="White" Background="#00000000" BorderThickness="0"
-            Padding="10" Height="33" Width="33" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,33,0.2,0"/>
-       <!--> <ListView x:Name="contactsListView"
-                  Margin="214,43,0,110.2" Grid.RowSpan="2" Foreground="White" Background="#00000000" BorderThickness="0" HorizontalAlignment="Left" Width="93">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Contador}" FontSize="25px"
-                                   FontWeight="Bold"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView><-->
-
-        <TextBlock Name="textPegaAgua" Text="Quantos copos você bebeu?" Margin="204,85,37.2,83.2" Grid.Row="1" Foreground="White" RenderTransformOrigin="1.612,0.893" />
-        <TextBox Name="pegaAgua" Width="164"
-                  Grid.Row="1" HorizontalAlignment="left" VerticalAlignment="Bottom" Margin="203,0,0,63.2" Height="22" KeyDown="PegaAgua_KeyDown_1"/>
+            Padding="10" Height="42" Width="33" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,42,0,0" FontWeight="Bold" FontSize="14"/>
+        <Button
+            Name="openHist"
+            Content="{StaticResource clock}"
+            Click="HistAbrir"
+            FontSize="12px" 
+            Foreground="White" Background="{x:Null}" BorderThickness="1"
+            Padding="3" Margin="0,52,396,0" Grid.Row="1" BorderBrush="White" RenderTransformOrigin="-2.306,-0.861" HorizontalAlignment="Right" Width="36" Height="32" VerticalAlignment="Top" />
+        <!-->   <TextBox Name="pegaAgua" Width="164"
+                  Grid.Row="1" HorizontalAlignment="left" VerticalAlignment="Bottom" Margin="203,0,0,63.2" Height="22" KeyDown="PegaAgua_KeyDown_1"/> <-->
         <Button
             Name="btnPegaAgua"
             Click="PegarAgua"
             Content="Beber Água" FontSize="12px" 
             Foreground="White" Background="{x:Null}" BorderThickness="1"
-            Padding="10" Margin="280,139,36.2,10.2" Grid.Row="1" BorderBrush="White" RenderTransformOrigin="0.016,1.148" />
+            Padding="10" Margin="0,140,39,0" Grid.Row="1" BorderBrush="White" RenderTransformOrigin="0.016,1.148" Height="38" VerticalAlignment="Top" HorizontalAlignment="Right" Width="96" FontFamily="Calibri" />
         <Button
-            Name="openn"
+            Name="openConfig"
             Content="{StaticResource gear}"
             Click="ConfigWindowAbrir"
             FontSize="12px" 
             Foreground="White" Background="{x:Null}" BorderThickness="1"
-            Padding="3" Margin="10,6,361,153" Grid.Row="1" BorderBrush="White" />
+            Padding="3" Margin="0,15,396,0" Grid.Row="1" BorderBrush="White" Height="32" VerticalAlignment="Top" RenderTransformOrigin="1.611,1.803" HorizontalAlignment="Right" Width="36" />
+
         <Button
             Name="btnResetaAgua"
             Click="ResetarAgua"
             Content="Resetar" FontSize="12px" 
             Foreground="White" Background="{x:Null}" BorderThickness="1"
-            Padding="10" Margin="203,139,131.2,10.2" Grid.Row="1" BorderBrush="White" />
-        <TextBlock Name="textContador" Text="0" FontSize="40px" Margin="185,33,69,109" Grid.Row="1" Foreground="White" VerticalAlignment="Center" Height="49" TextAlignment="Center" /> 
-        <TextBlock Name="textCont" Text="TOTAL BEBIDO" FontSize="25px" Margin="200,6,38.2,153.2" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" Width="165" VerticalAlignment="Center" Height="32" />
-            <TextBlock Name="textML" Text="ML" FontSize="25px" Margin="320,43,50.2,116.2" Grid.Row="1" Foreground="White" HorizontalAlignment="Center" Width="33" VerticalAlignment="Center" Height="32" />
-        <Viewbox Margin="37,0,219.2,0.2" Grid.RowSpan="2">
-            <Image Source="{StaticResource haha}" Width="168" Name="haha" Visibility="Collapsed" Height="131"></Image>
+            Padding="10" Margin="0,140,144,0" Grid.Row="1" BorderBrush="White" Height="38" VerticalAlignment="Top" HorizontalAlignment="Right" Width="81" FontFamily="Calibri" />
+        <TextBlock Name="textContador" Text="0" FontSize="45px" Margin="0,42,101,0" Grid.Row="1" Foreground="White" TextAlignment="Center" HorizontalAlignment="Right" Width="122" Height="53" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.754" FontFamily="Calibri" FontWeight="Bold" />
+        <TextBlock Name="textCont" Text="TOTAL BEBIDO" FontSize="32px" Margin="0,7,39,0" Grid.Row="1" Foreground="White" VerticalAlignment="Top" Height="39" HorizontalAlignment="Right" Width="186" FontFamily="Calibri" />
+        <TextBlock Name="textML" Text="ML" FontSize="30px" Margin="0,57,49,0" Grid.Row="1" Foreground="White" HorizontalAlignment="Right" Width="47" Height="31" VerticalAlignment="Top" FontFamily="Calibri" />
+
+        <Viewbox Margin="51,1,230,0" Grid.RowSpan="2" Name="vbox">
+            <Image Name="carinha" Source="{StaticResource triste}" Width="167" Visibility="Visible" Height="126"></Image>
         </Viewbox>
-        <Viewbox Margin="37,0,219.2,0.2" Grid.RowSpan="2">
-            <Image Source="{StaticResource triste}" Width="168" Name="triste" Visibility="Visible" Height="131"></Image>
-        </Viewbox>
-        <Viewbox Margin="37,0,219.2,0.2" Grid.RowSpan="2">
-            <Image Source="{StaticResource wow}" Width="168" Name="wow" Visibility="Collapsed" Height="131"></Image>
-        </Viewbox>
-        <Viewbox Margin="37,0,219.2,0.2" Grid.RowSpan="2">
-            <Image Source="{StaticResource zen1}" Width="168" Name="zen1" Visibility="Collapsed" Height="131"></Image>
-        </Viewbox>
-        <Viewbox Margin="37,0,219.2,0.2" Grid.RowSpan="2">
-            <Image Source="{StaticResource zen2}" Width="168" Name="zen2" Visibility="Collapsed" Height="131"></Image>
-        </Viewbox>
+
+        <Button
+            x:Name="openSobre"
+            Content="{StaticResource info}"
+            Click="SobreAbrir"
+            FontSize="12px" 
+            Foreground="White" Background="{x:Null}" BorderThickness="1"
+            Padding="3" Margin="0,146,396,0" Grid.Row="1" BorderBrush="White" Height="32" VerticalAlignment="Top" RenderTransformOrigin="7.142,1.375" HorizontalAlignment="Right" Width="36" />
+        <Button
+            x:Name="voltarDadosAgua"
+            Click="ReturnAgua"
+            FontSize="12px" 
+            Foreground="White" Background="{x:Null}" BorderThickness="1"
+            Padding="3" Margin="0,101,39,0" Grid.Row="1" BorderBrush="White" RenderTransformOrigin="1.154,-0.246" Height="33" VerticalAlignment="Top" HorizontalAlignment="Right" Width="186">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Voltar Entrada" Height="16"></TextBlock>
+                <Image Source="Resources\return.png" HorizontalAlignment="Right" Width="30" Height="24"/>
+            </StackPanel>
+        </Button>
+
     </Grid>
+    <Window.Resources>
+        <ResourceDictionary>
+            <BitmapImage x:Key="haha" UriSource="Resources\haha.png"></BitmapImage>
+            <BitmapImage x:Key="triste" UriSource="Resources\triste.png"></BitmapImage>
+            <BitmapImage x:Key="wow" UriSource="Resources\wow.png"></BitmapImage>
+            <BitmapImage x:Key="zen1" UriSource="Resources\zen1.png"></BitmapImage>
+            <BitmapImage x:Key="zen2" UriSource="Resources\zen2.png"></BitmapImage>
+            <BitmapImage x:Key="return" UriSource="Resources\return.png"></BitmapImage>
+        </ResourceDictionary>
+    </Window.Resources>
 </Window>
